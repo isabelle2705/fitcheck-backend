@@ -1,4 +1,4 @@
-import { Worker } from 'bullmq';
+import { Worker, Job } from 'bullmq';
 import { config } from '../config.js';
 import { connection, tryonQueue, publishStatus } from './queue.js';
 import type { TryonJob } from '../agents/types.js';

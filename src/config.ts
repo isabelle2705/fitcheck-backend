@@ -1,16 +1,19 @@
 export interface Config {
   port: number;
   redisUrl: string;
-  s3: {
-    region: string;
-    bucket: string;
+  higgsfield: {
+    apiKey: string;
+  };
+  r2: {
+    accountId: string;
     accessKeyId: string;
     secretAccessKey: string;
+    bucket: string;
+    publicUrl: string;
   };
-  replicateApiKey: string;
   anthropicApiKey: string;
-  openaiApiKey: string;
-  clerkPublishableKey: string;
+  starterPoints: number;
+  pointsPerGeneration: number;
 }
 
 function requireEnv(key: string): string {
@@ -19,17 +22,24 @@ function requireEnv(key: string): string {
   return val;
 }
 
+function optionalEnv(key: string, fallback = ''): string {
+  return process.env[key] ?? fallback;
+}
+
 export const config: Config = {
-  port: parseInt(process.env.PORT ?? '3000', 10),
+  port: parseInt(process.env.PORT ?? '3001', 10),
   redisUrl: requireEnv('REDIS_URL'),
-  s3: {
-    region: requireEnv('AWS_REGION'),
-    bucket: requireEnv('S3_BUCKET'),
-    accessKeyId: requireEnv('AWS_ACCESS_KEY_ID'),
-    secretAccessKey: requireEnv('AWS_SECRET_ACCESS_KEY'),
+  higgsfield: {
+    apiKey: optionalEnv('HIGGSFIELD_API_KEY'),
   },
-  replicateApiKey: requireEnv('REPLICATE_API_KEY'),
-  anthropicApiKey: requireEnv('ANTHROPIC_API_KEY'),
-  openaiApiKey: requireEnv('OPENAI_API_KEY'),
-  clerkPublishableKey: requireEnv('CLERK_PUBLISHABLE_KEY'),
+  r2: {
+    accountId: optionalEnv('R2_ACCOUNT_ID'),
+    accessKeyId: optionalEnv('R2_ACCESS_KEY_ID'),
+    secretAccessKey: optionalEnv('R2_SECRET_ACCESS_KEY'),
+    bucket: optionalEnv('R2_BUCKET_NAME', 'fitcheck-images'),
+    publicUrl: optionalEnv('R2_PUBLIC_URL'),
+  },
+  anthropicApiKey: optionalEnv('ANTHROPIC_API_KEY'),
+  starterPoints: parseInt(optionalEnv('STARTER_POINTS', '100'), 10),
+  pointsPerGeneration: parseInt(optionalEnv('POINTS_PER_GENERATION', '10'), 10),
 };

@@ -1,5 +1,5 @@
-import { Queue, Worker, Job } from 'bullmq';
-import Redis from 'ioredis';
+import { Queue } from 'bullmq';
+import { Redis } from 'ioredis';
 import { config } from '../config.js';
 import type { TryonJob } from '../agents/types.js';
 

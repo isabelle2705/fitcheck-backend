@@ -22,7 +22,7 @@ export function setupWebSocket(fastify: FastifyInstance): void {
       });
     });
 
-    socket.socket.on('error', (err) => {
+    socket.socket.on('error', (err: Error) => {
       console.error(`[ws] socket error for session ${sessionId}:`, err.message);
     });
   });
