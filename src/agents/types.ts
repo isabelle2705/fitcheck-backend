@@ -24,4 +24,6 @@ export interface TryonJob {
   person_asset_id: string;
   garment_asset_ids: string[];
   status: 'queued' | 'processing' | 'done' | 'failed';
+  /** Higgsfield async job ID, present when job was created via /generate */
+  higgsfield_job_id?: string;
 }

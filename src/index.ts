@@ -7,6 +7,8 @@ import { registerHealthRoutes } from './routes/health.js';
 import { registerUploadRoutes } from './routes/upload.js';
 import { registerTryonRoutes } from './routes/tryon.js';
 import { registerResultRoutes } from './routes/result.js';
+import { registerUserRoutes } from './routes/users.js';
+import { registerGenerateRoutes } from './routes/generate.js';
 import { setupWebSocket } from './ws/handler.js';
 import { startWorker } from './queue/worker.js';
 
@@ -20,6 +22,8 @@ await registerHealthRoutes(fastify);
 await registerUploadRoutes(fastify);
 await registerTryonRoutes(fastify);
 await registerResultRoutes(fastify);
+await registerUserRoutes(fastify);
+await registerGenerateRoutes(fastify);
 setupWebSocket(fastify);
 
 startWorker();
