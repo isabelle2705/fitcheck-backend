@@ -3,7 +3,7 @@ import { config } from '../config.js';
 const BASE_URL = 'https://api.higgsfield.ai/v1';
 
 function isMockMode(): boolean {
-  return !config.higgsfield.apiKey;
+  return config.mockMode || !config.higgsfield.apiKey;
 }
 
 function authHeaders(): Record<string, string> {

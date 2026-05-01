@@ -1,6 +1,7 @@
 export interface Config {
   port: number;
   redisUrl: string;
+  mockMode: boolean;
   higgsfield: {
     apiKey: string;
   };
@@ -29,6 +30,7 @@ function optionalEnv(key: string, fallback = ''): string {
 export const config: Config = {
   port: parseInt(process.env.PORT ?? '3001', 10),
   redisUrl: requireEnv('REDIS_URL'),
+  mockMode: optionalEnv('MOCK_MODE', 'false') === 'true',
   higgsfield: {
     apiKey: optionalEnv('HIGGSFIELD_API_KEY'),
   },
