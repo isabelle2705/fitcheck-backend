@@ -21,14 +21,16 @@ export async function registerResultRoutes(fastify: FastifyInstance): Promise<vo
     const progress = job.progress;
 
     if (state === 'completed') {
-      const result = (typeof progress === 'object' && progress !== null
+      // Worker stores result in returnvalue; progress is a legacy fallback
+      const returnval = job.returnvalue as { composite_url?: string; result_url?: string; score?: number } | null;
+      const prog = (typeof progress === 'object' && progress !== null
         ? progress as { composite_url?: string; score?: number }
         : {}) as { composite_url?: string; score?: number };
-      return {
-        status: 'done',
-        composite_url: result.composite_url,
-        score: result.score,
-      };
+
+      const composite_url = returnval?.composite_url ?? returnval?.result_url ?? prog.composite_url;
+      const score = returnval?.score ?? prog.score;
+
+      return { status: 'done', composite_url, score };
     }
 
     if (state === 'failed') {
