@@ -83,7 +83,8 @@ export async function registerGenerateRoutes(fastify: FastifyInstance): Promise<
       brandPaid,
     });
 
-    // Enqueue BullMQ job for polling
+    // Enqueue BullMQ job for polling.
+    // jobId: generationId ensures getJob(generationId) works in the result route.
     await tryonQueue.add(
       userId,
       {
@@ -94,7 +95,7 @@ export async function registerGenerateRoutes(fastify: FastifyInstance): Promise<
         // Extra fields carried through as job data
         higgsfield_job_id: jobId,
       } as GenerateJobData,
-      { delay: 0 }
+      { delay: 0, jobId: generationId }
     );
 
     return { generationId, jobId, pointsRemaining };
